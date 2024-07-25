@@ -6,6 +6,7 @@
     <title>Lenin Job Order Web</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet">
     <style>
         html, body {
@@ -17,23 +18,50 @@
         .container {
             flex: 1;
         }
+        .btn-custom {
+            font-size: 1.5rem;
+            height: 70px;
+            padding: 15px 30px;
+        }
+        .btn-warning .fa-rocket {
+            color: white;
+        }
     </style>
-     <div th:insert="~{fragments/header}"></div>
+    <div th:insert="~{fragments/header}"></div>
 </head>
 <body>
     <!-- Include the header using the complete syntax -->
 
     <div class="container text-center mt-5">
         <h1 class="mb-5">Lenin Job Order Web</h1>
+        <div class="row">
+            <!-- New buttons with icons -->
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <button class="btn btn-primary btn-lg btn-block shadow-lg btn-custom" onclick="location.href='/deployment'">
+                    <i class="fas fa-rocket"></i> Deployment
+                </button>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <button class="btn btn-success btn-lg btn-block shadow-lg btn-custom" onclick="location.href='/releasing'">
+                    <i class="fas fa-check-circle"></i> Release
+                </button>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <button class="btn btn-warning btn-lg btn-block shadow-lg btn-custom" onclick="location.href='/view'">
+                    <i class="fas fa-eye"></i> View Job Orders
+                </button>
+            </div>
+        </div>
         <div class="row justify-content-center">
-            <div class="col-md-4 mb-3">
-                <button class="btn btn-primary btn-lg btn-block shadow-lg" onclick="location.href='/view'">View Job Orders</button>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <button class="btn btn-secondary btn-lg btn-block shadow-lg btn-custom" onclick="location.href='/solutions-config'">
+                    <i class="fas fa-cogs"></i> Solutions Config
+                </button>
             </div>
-            <div class="col-md-4 mb-3">
-                <button class="btn btn-secondary btn-lg btn-block shadow-lg" onclick="location.href='/solutions-config'">Solutions Config</button>
-            </div>
-            <div class="col-md-4 mb-3">
-                <button class="btn btn-info btn-lg btn-block shadow-lg" onclick="location.href='/admin-config'">Admin Config</button>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <button class="btn btn-info btn-lg btn-block shadow-lg btn-custom" onclick="location.href='/admin-config'">
+                    <i class="fas fa-user-cog"></i> Admin Config
+                </button>
             </div>
         </div>
     </div>
