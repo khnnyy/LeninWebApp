@@ -113,4 +113,23 @@ public class ViewingService {
         }
         return projectData;
     }
+    
+    public List<Document> getDeployedProjects(){
+        List<Document> projectData = new ArrayList<>();
+        try{MongoCollection<Document> collection = mangoDBConnection.getCollection();
+
+            Document filter = new Document("status", "deployed");
+        
+            projectData = collection.find(filter)
+                    .projection(new Document("job_code", 1)
+                            .append("client_name", 1)
+                            .append("status", 1)
+                            .append("date_due", 1))
+                    .sort(new Document("date_issued", -1))
+                    .into(new ArrayList<>());
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+        return projectData;
+    }
 }

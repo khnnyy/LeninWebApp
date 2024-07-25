@@ -51,6 +51,13 @@ public class ViewingController {
         model.addAttribute("jobs", projects);
         return "deployment";
     }
+    
+    @GetMapping("/releasing")
+    public String releasing(Model model) {
+        List<Document> projects = viewingService.getDeployedProjects();
+        model.addAttribute("jobs", projects);
+        return "releasing";
+    }
 
     @GetMapping("/activeFilter")
     @ResponseBody
