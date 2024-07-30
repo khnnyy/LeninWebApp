@@ -17,6 +17,7 @@ import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Indexes.descending;
 import com.mongodb.client.model.Updates;
+import jakarta.annotation.PreDestroy;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -44,11 +45,12 @@ public class MangoDBConnection {
     private final MongoDatabase database;
     private final MongoCollection<Document> collection;
     private final MongoCollection<Document> configuration;
+    private final MongoClient mongoClient;
 
 
     @Autowired
     public MangoDBConnection() {
-        MongoClient mongoClient = MongoClients.create("mongodb+srv://khadeem:lenin_JO@clusterleninjo.divpuaq.mongodb.net/LeninJobOrder?retryWrites=true&w=majority&appName=ClusterLeninJO");
+             mongoClient = MongoClients.create("mongodb+srv://khadeem:lenin_JO@clusterleninjo.divpuaq.mongodb.net/LeninJobOrder?retryWrites=true&w=majority&appName=ClusterLeninJO");
         this.database = mongoClient.getDatabase("LeninJobOrder");
         this.collection = database.getCollection("solutionsClient");
         this.configuration = database.getCollection("solutionsConfig");
@@ -234,4 +236,11 @@ public class MangoDBConnection {
             return null;
         }
     }
+    @PreDestroy
+    public void closeMongoClient() {
+    if (mongoClient != null) {
+      mongoClient.close();
+    }
+  }
+    
 }
