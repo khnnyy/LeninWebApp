@@ -31,6 +31,9 @@
     </style>
 </head>
 <body>
+    
+    <div th:insert="~{fragments/header}"></div>
+    
     <div class="container mt-5">
         <h2 class="text-center mb-4">Job Order Form</h2>
         <form th:action="@{/submit-job-order}" th:object="${jobOrderForm}" method="post">
