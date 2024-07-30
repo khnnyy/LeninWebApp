@@ -42,6 +42,7 @@ package com.mycompany.webserverlenin;
             
         return "Application is up and running!";
         }
+        
 
         @GetMapping("/status")
         public String getStatusByJobCode(@RequestParam String jobCode) {
