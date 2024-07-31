@@ -116,3 +116,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   fetchAndDisplayData(); // Initial data fetch and display
 });
+

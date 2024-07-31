@@ -243,4 +243,12 @@ public class MangoDBConnection {
     }
   }
     
+    public Document getProjectDataByJobCode(String jobCode) {
+        try {
+            return collection.find(eq("job_code", jobCode)).first();
+        } catch (MongoException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
