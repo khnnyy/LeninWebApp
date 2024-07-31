@@ -88,6 +88,12 @@ public class ViewingController {
         return "releasing";
     }
     
+    @GetMapping("/admin-config")
+    public String AdminConfig(Model model){
+////        List<Document> projects = viewingService.getActiveProjects();
+////        model.addAttribute("projects", projects);
+        return "admin";
+    }
 
     @GetMapping("/activeFilter")
     @ResponseBody
