@@ -62,7 +62,7 @@ public class ViewingController {
         this.viewingService = viewingService;
     }
     
-        @GetMapping("/view-details/{jobCode}")
+    @GetMapping("/view-details/{jobCode}")
     public String getJobOrderForm(@PathVariable String jobCode, Model model) {
         try {
             List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
@@ -138,13 +138,20 @@ public class ViewingController {
 
             // Add project details to PDF
             Document project = projectDetails.get(0);
+            document.add(new Paragraph("Job Type: " + project.getString("job_type")));
             document.add(new Paragraph("Job Code: " + project.getString("job_code")));
             document.add(new Paragraph("Client Name: " + project.getString("client_name")));
-            document.add(new Paragraph("Status: " + project.getString("status")));
+            document.add(new Paragraph("Address: " + project.getString("address")));
+            document.add(new Paragraph("Contact: " + project.getString("contact")));
+            document.add(new Paragraph("Concern: " + project.getString("concern")));
+            document.add(new Paragraph("Leader: " + project.getString("leader")));
+            document.add(new Paragraph("Date Due: " + project.getString("date_due")));
             document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));
             document.add(new Paragraph("Date Confirmed: " + project.getString("date_confirmed")));
             document.add(new Paragraph("Running Days: " + project.getString("running_days")));
             document.add(new Paragraph("Warranty: " + project.getString("warranty")));
+            document.add(new Paragraph("Status: " + project.getString("status")));
+            
 
             document.close();
 
