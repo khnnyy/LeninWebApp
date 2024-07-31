@@ -1,5 +1,10 @@
 package com.mycompany.webserverlenin;
 
+import com.itextpdf.io.exceptions.IOException;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Paragraph;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -15,6 +20,9 @@ import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +46,7 @@ public class ViewingController {
         this.viewingService = viewingService;
     }
     
-        @GetMapping("/view-details/{jobCode}")
+    @GetMapping("/view-details/{jobCode}")
     public String getJobOrderForm(@PathVariable String jobCode, Model model) {
         try {
             List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
@@ -97,6 +105,51 @@ public class ViewingController {
                 break;
         }
         return projects;
+    }
+    
+    @GetMapping("/download-pdf/{jobCode}")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable String jobCode) {
+        try {
+            // Fetch project details
+            List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
+            if (projectDetails == null || projectDetails.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            // Generate PDF
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PdfWriter writer = new PdfWriter(baos);
+            PdfDocument pdf = new PdfDocument(writer);
+            com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdf);
+
+            // Add project details to PDF
+            Document project = projectDetails.get(0);
+            document.add(new Paragraph("Job Type: " + project.getString("job_type")));
+            document.add(new Paragraph("Job Code: " + project.getString("job_code")));
+            document.add(new Paragraph("Client Name: " + project.getString("client_name")));
+            document.add(new Paragraph("Address: " + project.getString("address")));
+            document.add(new Paragraph("Contact: " + project.getString("contact")));
+            document.add(new Paragraph("Concern: " + project.getString("concern")));
+            document.add(new Paragraph("Leader: " + project.getString("leader")));
+            document.add(new Paragraph("Date Due: " + project.getString("date_due")));
+            document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));
+            document.add(new Paragraph("Date Confirmed: " + project.getString("date_confirmed")));
+            document.add(new Paragraph("Running Days: " + project.getString("running_days")));
+            document.add(new Paragraph("Warranty: " + project.getString("warranty")));
+            document.add(new Paragraph("Status: " + project.getString("status")));
+
+            document.close();
+
+            // Return PDF as response
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "job_details_" + jobCode + ".pdf");
+            return new ResponseEntity<>(baos.toByteArray(), headers, HttpStatus.OK);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
 
