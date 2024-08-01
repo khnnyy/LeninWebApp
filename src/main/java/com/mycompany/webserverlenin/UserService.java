@@ -1,3 +1,5 @@
+
+
 package com.mycompany.webserverlenin;
 
 import com.mongodb.client.MongoCollection;
@@ -36,4 +38,18 @@ public class UserService {
         }
         return false;
     }
+
+    public boolean updatePassword(String username, String newPassword) {
+        MongoCollection<Document> collection = mangoDBConnection.getConfiguration();
+        Document user = collection.find(new Document("user_name", username)).first();
+        if (user != null) {
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            Document update = new Document("$set", new Document("password", encryptedPassword));
+            collection.updateOne(new Document("user_name", username), update);
+            return true;
+        }
+        System.err.println("User not found: " + username);
+        return false;
+    }
+
 }
