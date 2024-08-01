@@ -10,6 +10,8 @@ package com.mycompany.webserverlenin;
  */
 
     import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.web.bind.annotation.*;
 
     @RestController
@@ -17,10 +19,12 @@ package com.mycompany.webserverlenin;
     public class JobOrderController {
 
         private final MangoDBConnection mangoDBConnection;
+        private final UserService userService;
 
         @Autowired
-        public JobOrderController(MangoDBConnection mangoDBConnection) {
+        public JobOrderController(MangoDBConnection mangoDBConnection, UserService userService) {
             this.mangoDBConnection = mangoDBConnection;
+            this.userService = userService;
         }
         
         @GetMapping("/jobcode")
@@ -83,6 +87,12 @@ package com.mycompany.webserverlenin;
 public String updateStatusByJobCode(@RequestParam String jobCode) {
     String status = "in progress";
     String confirmed = Util.getDate();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Get the role of the user
+        String name = userService.getUserName(username);
+    
     try {
         boolean exists = mangoDBConnection.jobCodeExists(jobCode);
         
@@ -104,7 +114,7 @@ public String updateStatusByJobCode(@RequestParam String jobCode) {
         System.out.println("Received request to update job code: " + jobCode);
         mangoDBConnection.updateStatusByJobCode(jobCode, status);
         mangoDBConnection.confirmStatusByJobCode(jobCode, confirmed);
-        
+        mangoDBConnection.updateUserConfirm(jobCode, name);
         System.out.println("Status updated to confirmed for job code: " + jobCode);
         return "<!DOCTYPE html>" +
                 "<html lang='en' style='font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;'>"+

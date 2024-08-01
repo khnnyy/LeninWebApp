@@ -149,6 +149,18 @@ public class MangoDBConnection {
         }
     }
     
+    public void updateUserConfirm(String jobCode, String newStatus) {
+        try {
+            Document query = new Document("job_code", jobCode);
+            Document update = new Document("$set", new Document("user_confirmed", newStatus));
+            collection.updateOne(query, update);
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
     public void confirmStatusByJobCode(String jobCode, String newConfirmed){
         try{
             Document query = new Document("job_code", jobCode);
