@@ -52,4 +52,12 @@ public class UserService {
         return false;
     }
 
+    public String getUserRole(String username) {
+        MongoCollection<Document> collection = mangoDBConnection.getConfiguration();
+        Document user = collection.find(new Document("user_name", username)).first();
+        if (user != null) {
+            return user.getString("role");
+        }
+        return null; // or a default role
+    }
 }
