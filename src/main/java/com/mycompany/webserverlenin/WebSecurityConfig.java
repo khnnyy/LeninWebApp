@@ -58,7 +58,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/login", "/error", "/update-password", "/create-user").permitAll()
+                .requestMatchers("/login", "/error").permitAll()
                 .requestMatchers("/").permitAll()    // Allow access to login, error, update-password, and create-user endpoints
                 .anyRequest().authenticated() // Require authentication for all other requests
             )

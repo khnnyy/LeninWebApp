@@ -84,9 +84,27 @@ public String updateStatusByJobCode(@RequestParam String jobCode) {
     String status = "in progress";
     String confirmed = Util.getDate();
     try {
+        boolean exists = mangoDBConnection.jobCodeExists(jobCode);
+        
+        if (exists){
+            return "<!DOCTYPE html>" +
+                    "<html lang='en'>" +
+                    "<head>" +
+                    "<meta charset='UTF-8'>" +
+                    "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
+                    "<title>Link Expired</title>" +
+                    "</head>" +
+                    "<body>" +
+                    "<h1>Link Expired</h1>" +
+                    "<p>This link has already been used or is invalid.</p>" +
+                    "</body>" +
+                    "</html>";
+        }
+        
         System.out.println("Received request to update job code: " + jobCode);
         mangoDBConnection.updateStatusByJobCode(jobCode, status);
         mangoDBConnection.confirmStatusByJobCode(jobCode, confirmed);
+        
         System.out.println("Status updated to confirmed for job code: " + jobCode);
         return "<!DOCTYPE html>" +
                 "<html lang='en' style='font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;'>"+
