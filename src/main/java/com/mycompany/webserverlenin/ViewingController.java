@@ -104,6 +104,11 @@ public class ViewingController {
         return "releasing";
     }
     
+    @GetMapping("/admin-config")
+    public String AdminConfig(Model model){
+        return "admin";
+    }
+    
 
     @GetMapping("/activeFilter")
     @ResponseBody

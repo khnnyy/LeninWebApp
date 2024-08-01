@@ -104,36 +104,6 @@ public class MangoDBConnection {
             e.printStackTrace();
         }
     }
-        
-
-//    public void updateRunningDays() {
-//        LocalDate currentDate = LocalDate.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-//
-//        // Fetch documents where date_confirmed is not "-"
-//        List<Document> documentsToUpdate = collection.find(
-//                new Document("date_confirmed", new Document("$ne", "-"))
-//        ).projection(new Document("_id", 1).append("date_confirmed", 1)).into(new ArrayList<>());
-//
-//        for (Document project : documentsToUpdate) {
-//            String confirmedDateString = project.getString("date_confirmed");
-//
-//            if (confirmedDateString != null) {
-//                try {
-//                    LocalDate confirmedDate = LocalDate.parse(confirmedDateString, formatter);
-//                    int runningDays = (int) ChronoUnit.DAYS.between(confirmedDate, currentDate);
-//
-//                    // Update the running_days field as a string for the current document
-//                    String runningDaysStr = String.valueOf(runningDays);
-//                    Bson updateDoc = Updates.set("running_days", runningDaysStr);
-//                    collection.updateOne(new Document("_id", project.getObjectId("_id")), updateDoc);
-//                } catch (Exception e) {
-//                    // Handle the exception (e.g., log the error)
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
     
     public void updateRunningDays() {
     LocalDate currentDate = LocalDate.now();

@@ -22,21 +22,25 @@
 <body>
     <div class="container">
         <h1 class="text-center mb-4">Admin Config</h1>
-        <form id="config-form">
+        <form id="update-password-form">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <label for="new-password">New Password</label>
+                <input type="password" class="form-control" id="new-password" name="new-password" required>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-primary btn-custom" onclick="saveConfig()">Save</button>
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-custom" onclick="updatePassword()">Update Password</button>
             </div>
         </form>
         <div class="text-center mt-4">
-            <a href="/" class="btn btn-secondary btn-custom">Home</a>
+            <a href="/home" class="btn btn-secondary btn-custom">Home</a>
         </div>
     </div>
 
@@ -44,12 +48,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function saveConfig() {
-            // Simulate a save action
-            setTimeout(() => {
-                alert('Settings saved successfully!');
-            }, 500);
+        function updatePassword() {
+            const username = document.getElementById('username').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            fetch('/update-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    newPassword: newPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Password updated successfully!');
+                } else {
+                    alert('Error updating password: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating password');
+            });
         }
     </script>
 </body>
 </html>
+
