@@ -79,9 +79,6 @@ public class ViewingController {
             return "error"; // Name of your error template
         }
     }
-
-
-
     
     @GetMapping("/view")
     public String viewProjects(Model model) {
@@ -107,6 +104,11 @@ public class ViewingController {
     @GetMapping("/admin-config")
     public String AdminConfig(Model model){
         return "admin";
+    }
+    
+    @GetMapping("/create-user")
+    public String CreateUser(Model model){
+        return "createUser";
     }
     
 
