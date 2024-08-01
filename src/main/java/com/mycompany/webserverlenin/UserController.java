@@ -59,23 +59,6 @@ public class UserController {
         return response;
     }
     
-//    @PostMapping("/create-user")
-//    @ResponseBody
-//    public Map<String, Object> createUser(@RequestBody Map<String, String> payload) {
-//        String username = payload.get("username");
-//        String password = payload.get("password");
-//        String role = payload.get("role");
-//
-//        Map<String, Object> response = new HashMap<>();
-//        try {
-//            userService.saveUser(username, password, role);
-//            response.put("success", true);
-//        } catch (Exception e) {
-//            response.put("success", false);
-//            response.put("message", e.getMessage());
-//        }
-//        return response;
-//    }
     @PostMapping("/create-user")
     @ResponseBody
     public Map<String, Object> createUser(@RequestBody Map<String, String> payload) {
