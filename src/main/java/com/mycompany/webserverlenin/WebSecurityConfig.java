@@ -48,6 +48,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -57,7 +58,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/login", "/error", "/update-password", "/create-user").permitAll() // Allow access to login, error, update-password, and create-user endpoints
+                .requestMatchers("/login", "/error", "/update-password", "/create-user").permitAll()
+                .requestMatchers("/").permitAll()    // Allow access to login, error, update-password, and create-user endpoints
                 .anyRequest().authenticated() // Require authentication for all other requests
             )
             .formLogin((form) -> form
@@ -66,7 +68,9 @@ public class WebSecurityConfig {
                 .failureUrl("/login?error=Invalid%20username%20or%20password") // Redirect to login with error query param on failure
                 .permitAll() // Allow everyone to access the login page
             )
-            .logout((logout) -> logout
+           .logout((logout) -> logout
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) // Specify a custom logout request matcher that ignores CSRF protection
+                .logoutSuccessUrl("/login?logout") // Redirect to login page after logout
                 .permitAll() // Allow everyone to access the logout page
             )
             .csrf(csrf -> csrf

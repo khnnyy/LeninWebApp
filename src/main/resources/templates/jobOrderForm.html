@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <div th:insert="~{fragments/header}"></div> 
+</head>
+<body>
+    
     <style>
          .container {
             max-width: 750px; /* Adjust to your preferred max width */
@@ -122,8 +126,6 @@
             flex: 1;
         }
     </style>
-</head>
-<body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Job Order Form</h2>
         <form id="jobOrderForm" th:action="@{/submit-job-order}" th:object="${jobOrderForm}" method="post">
