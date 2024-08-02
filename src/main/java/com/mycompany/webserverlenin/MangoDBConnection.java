@@ -82,7 +82,7 @@ public class MangoDBConnection {
                 Document document = cursor.next();
                 // Extract the email from the document
                 String email = document.getString("email");
-                if (email != null) {
+                if (email != null && !email.trim().isEmpty()) {
                     emails.add(email);
                 }
             }
@@ -259,7 +259,7 @@ public class MangoDBConnection {
                     .append("date_issued", dateIssued)
                     .append("time_issued", jobOrderForm.getTimeIssued())
                     .append("partial_deployed", dateDeployed)
-                    .append("service_request", jobOrderForm.getServiceRequest())
+                    .append("service_request",jobOrderForm.getServiceRequest())
                     .append("date_due", dateDue)
                     .append("solution_instructions", jobOrderForm.getInstructions())
                     .append("date_confirmed", "-")
