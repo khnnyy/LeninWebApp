@@ -27,7 +27,6 @@
             width: 100%;
         }
     </style>
-    
     <div class="container">
         <h1 class="text-center mb-4">Admin Config</h1>
         <form id="update-password-form">
@@ -44,7 +43,7 @@
                 <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-primary btn-custom" onclick="updatePassword()">Update Password</button>
+                <button type="submit" class="btn btn-primary btn-custom" onclick="updatePassword()">Update Password</button>
             </div>
         </form>
         <div class="text-center mt-4">
@@ -62,8 +61,12 @@
             const confirmPassword = document.getElementById('confirm-password').value;
 
             if (newPassword !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Passwords do not match. Please try again.'
+                });
+                return; // Stop the function execution
             }
 
             fetch('/update-password', {
@@ -79,22 +82,49 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Password updated successfully!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Password updated successfully!',
+                        text: 'The password has been successfully updated.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                     // Clear the input fields
                     document.getElementById('update-password-form').reset();
                 } else {
-                    alert('Error updating password: ' + data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error updating password',
+                        text: data.message
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error updating password');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error updating password',
+                    text: 'An unexpected error occurred.'
+                });
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get('error');
+            if (errorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: decodeURIComponent(errorMessage) // Decode the URL-encoded error message
+                });
+            }
+        });
     </script>
 </body>
     <footer class="footer">
           <div th:insert="~{fragments/footerM}"></div>
     </footer>
 </html>
+
 
