@@ -101,5 +101,11 @@
             <version>8.0.4</version>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>8.0.4</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>

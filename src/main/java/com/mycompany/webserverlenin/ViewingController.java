@@ -133,183 +133,60 @@ public class ViewingController {
         return projects;
     }
     
+
 //    @GetMapping("/download-pdf/{jobCode}")
 //    public ResponseEntity<byte[]> downloadPdf(@PathVariable String jobCode) {
-//        try {
-//            // Fetch project details
-//            List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
-//            if (projectDetails == null || projectDetails.isEmpty()) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//            }
+//    try {
+//        // Log the jobCode
+//        System.out.println("Received jobCode: " + jobCode);
 //
-//            // Generate PDF
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            PdfWriter writer = new PdfWriter(baos);
-//            PdfDocument pdf = new PdfDocument(writer);
-//            com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdf);
-//
-//            // Add project details to PDF
-//            Document project = projectDetails.get(0);
-//            document.add(new Paragraph("Job Type: " + project.getString("job_type")));
-//            document.add(new Paragraph("Job Code: " + project.getString("job_code")));
-//            document.add(new Paragraph("Client Name: " + project.getString("client_name")));
-//            document.add(new Paragraph("Address: " + project.getString("address")));
-//            document.add(new Paragraph("Contact: " + project.getString("contact")));
-//            document.add(new Paragraph("Concern: " + project.getString("concern")));
-//            document.add(new Paragraph("Leader: " + project.getString("leader")));
-//            document.add(new Paragraph("Date Due: " + project.getString("date_due")));
-//            document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));
-//            document.add(new Paragraph("Date Confirmed: " + project.getString("date_confirmed")));
-//            document.add(new Paragraph("Running Days: " + project.getString("running_days")));
-//            document.add(new Paragraph("Warranty: " + project.getString("warranty")));
-//            document.add(new Paragraph("Status: " + project.getString("status")));
-//
-//            document.close();
-//
-//            // Return PDF as response
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
-//            headers.setContentDispositionFormData("attachment", "job_details_" + jobCode + ".pdf");
-//            return new ResponseEntity<>(baos.toByteArray(), headers, HttpStatus.OK);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//    }
-//    
-//     @GetMapping("/downloadPdf/{jobCode}")
-//    public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable String jobCode) throws IOException {
+//        // Fetch project details
 //        List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
-//        if (projectDetails != null && !projectDetails.isEmpty()) {
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            PdfWriter writer = new PdfWriter(baos);
-//            PdfDocument pdf = new PdfDocument(writer);
-//            com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdf);
-//
-//            Document projectDetail = projectDetails.get(0);
-//            document.add(new Paragraph("Job Code: " + projectDetail.getString("job_code")));
-//            document.add(new Paragraph("Client Name: " + projectDetail.getString("client_name")));
-//            document.add(new Paragraph("Status: " + projectDetail.getString("status")));
-//            document.add(new Paragraph("Date Issued: " + projectDetail.getString("date_issued")));
-//            document.add(new Paragraph("Date Confirmed: " + projectDetail.getString("date_confirmed")));
-//            document.add(new Paragraph("Running Days: " + projectDetail.getString("running_days")));
-//            document.add(new Paragraph("Warranty: " + projectDetail.getString("warranty")));
-//
-//            document.close();
-//
-//            ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add("Content-Disposition", "inline; filename=job_code_" + jobCode + ".pdf");
-//
-//            return ResponseEntity.ok()
-//                    .headers(headers)
-//                    .contentType(MediaType.APPLICATION_PDF)
-//                    .body(new InputStreamResource(bis));
-//        } else {
-//            return ResponseEntity.notFound().build();
+//        if (projectDetails == null || projectDetails.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 //        }
+//
+//        // Generate PDF
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        PdfWriter writer = new PdfWriter(baos);
+//        PdfDocument pdf = new PdfDocument(writer);
+//        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdf);
+//
+//        // Add project details to PDF
+//        Document project = projectDetails.get(0);
+//        document.add(new Paragraph("Job Type: " + project.getString("job_type")));
+//        document.add(new Paragraph("Job Code: " + project.getString("job_code")));
+//        document.add(new Paragraph("Client Name: " + project.getString("client_name")));
+//        document.add(new Paragraph("Address: " + project.getString("client_address")));
+//        document.add(new Paragraph("Contact: " + project.getString("client_contact")));
+//        document.add(new Paragraph("Request: " + project.getString("client_request")));
+//        document.add(new Paragraph("Team Leader: " + project.getString("team_leader")));
+//        document.add(new Paragraph("Solution manpower: " + project.getInteger("solution_manpower")));
+//        document.add(new Paragraph("Solutions Instruction: " + project.getString("solution_instructions")));
+//        document.add(new Paragraph("Service Request: " + project.getString("service_request")));
+//        document.add(new Paragraph("Partial Deployment: " + project.getString("partial_deployed")));
+//        document.add(new Paragraph("Date Due: " + project.getString("date_due")));
+//        document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));
+//        document.add(new Paragraph("Date Confirmed: " + project.getString("date_confirmed")));
+//        document.add(new Paragraph("Date Release: " + project.getString("date_released")));
+//        document.add(new Paragraph("Running Days: " + project.getString("running_days")));
+//        document.add(new Paragraph("Warranty: " + project.getString("warranty")));
+//        document.add(new Paragraph("Status: " + project.getString("status")));
+//        document.add(new Paragraph("Confirmed by: " + project.getString("user_confirmed")));
+//
+//        document.close();
+//
+//        // Return PDF as response
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
+//        headers.setContentDispositionFormData("attachment", "job_details_" + jobCode + ".pdf");
+//        return new ResponseEntity<>(baos.toByteArray(), headers, HttpStatus.OK);
+//
+//    } catch (IOException e) {
+//        e.printStackTrace();
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 //    }
-    
-    
-//    @GetMapping("/download-pdf/{jobCode}")
-//    public ResponseEntity<byte[]> downloadPdf(@PathVariable String jobCode) {
-//        try {
-//            // Fetch project details
-//            List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
-//            if (projectDetails == null || projectDetails.isEmpty()) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//            }
-//
-//            // Generate PDF
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            PdfWriter writer = new PdfWriter(baos);
-//            PdfDocument pdf = new PdfDocument(writer);
-//            com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdf);
-//
-//            // Add project details to PDF
-//            Document project = projectDetails.get(0);
-//            document.add(new Paragraph("Job Type: " + project.getString("job_type")));
-//            document.add(new Paragraph("Job Code: " + project.getString("job_code")));
-//            document.add(new Paragraph("Client Name: " + project.getString("client_name")));
-//            document.add(new Paragraph("Address: " + project.getString("address")));
-//            document.add(new Paragraph("Contact: " + project.getString("contact")));
-//            document.add(new Paragraph("Concern: " + project.getString("concern")));
-//            document.add(new Paragraph("Leader: " + project.getString("leader")));
-//            document.add(new Paragraph("Date Due: " + project.getString("date_due")));
-//            document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));
-//            document.add(new Paragraph("Date Confirmed: " + project.getString("date_confirmed")));
-//            document.add(new Paragraph("Running Days: " + project.getString("running_days")));
-//            document.add(new Paragraph("Warranty: " + project.getString("warranty")));
-//            document.add(new Paragraph("Status: " + project.getString("status")));
-//
-//            document.close();
-//
-//            // Return PDF as response
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
-//            headers.setContentDispositionFormData("attachment", "job_details_" + jobCode + ".pdf");
-//            return new ResponseEntity<>(baos.toByteArray(), headers, HttpStatus.OK);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//    }
-    
-    @GetMapping("/download-pdf/{jobCode}")
-    public ResponseEntity<byte[]> downloadPdf(@PathVariable String jobCode) {
-    try {
-        // Log the jobCode
-        System.out.println("Received jobCode: " + jobCode);
-
-        // Fetch project details
-        List<Document> projectDetails = viewingService.getProjectDetail(jobCode);
-        if (projectDetails == null || projectDetails.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
-        // Generate PDF
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PdfWriter writer = new PdfWriter(baos);
-        PdfDocument pdf = new PdfDocument(writer);
-        com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdf);
-
-        // Add project details to PDF
-        Document project = projectDetails.get(0);
-        document.add(new Paragraph("Job Type: " + project.getString("job_type")));
-        document.add(new Paragraph("Job Code: " + project.getString("job_code")));
-        document.add(new Paragraph("Client Name: " + project.getString("client_name")));
-        document.add(new Paragraph("Address: " + project.getString("client_address")));
-        document.add(new Paragraph("Contact: " + project.getString("client_contact")));
-        document.add(new Paragraph("Request: " + project.getString("client_request")));
-        document.add(new Paragraph("Team Leader: " + project.getString("team_leader")));
-        document.add(new Paragraph("Solution manpower: " + project.getInteger("solution_manpower")));
-        document.add(new Paragraph("Solutions Instruction: " + project.getString("solution_instructions")));
-        document.add(new Paragraph("Service Request: " + project.getString("service_request")));
-        document.add(new Paragraph("Partial Deployment: " + project.getString("partial_deployed")));
-        document.add(new Paragraph("Date Due: " + project.getString("date_due")));
-        document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));
-        document.add(new Paragraph("Date Confirmed: " + project.getString("date_confirmed")));
-        document.add(new Paragraph("Date Release: " + project.getString("date_released")));
-        document.add(new Paragraph("Running Days: " + project.getString("running_days")));
-        document.add(new Paragraph("Warranty: " + project.getString("warranty")));
-        document.add(new Paragraph("Status: " + project.getString("status")));
-        document.add(new Paragraph("Confirmed by: " + project.getString("user_confirmed")));
-
-        document.close();
-
-        // Return PDF as response
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "job_details_" + jobCode + ".pdf");
-        return new ResponseEntity<>(baos.toByteArray(), headers, HttpStatus.OK);
-
-    } catch (IOException e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-    }
-}
+//}
 
 
 }
