@@ -286,6 +286,7 @@ public class ViewingController {
         document.add(new Paragraph("Team Leader: " + project.getString("team_leader")));
         document.add(new Paragraph("Solution manpower: " + project.getInteger("solution_manpower")));
         document.add(new Paragraph("Solutions Instruction: " + project.getString("solution_instructions")));
+        document.add(new Paragraph("Service Request: " + project.getString("service_request")));
         document.add(new Paragraph("Partial Deployment: " + project.getString("partial_deployed")));
         document.add(new Paragraph("Date Due: " + project.getString("date_due")));
         document.add(new Paragraph("Date Issued: " + project.getString("date_issued")));

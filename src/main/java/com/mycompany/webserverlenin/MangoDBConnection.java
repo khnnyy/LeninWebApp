@@ -259,6 +259,7 @@ public class MangoDBConnection {
                     .append("date_issued", dateIssued)
                     .append("time_issued", jobOrderForm.getTimeIssued())
                     .append("partial_deployed", dateDeployed)
+                    .append("service_request", jobOrderForm.getServiceRequest())
                     .append("date_due", dateDue)
                     .append("solution_instructions", jobOrderForm.getInstructions())
                     .append("date_confirmed", "-")
@@ -268,6 +269,7 @@ public class MangoDBConnection {
                     .append("date_released","-")
                     .append("time_released", "-")
                     .append("warranty", "-")
+                    
                     .append("status", "pending"); // Assuming status is set to "Pending" initially
 
              
