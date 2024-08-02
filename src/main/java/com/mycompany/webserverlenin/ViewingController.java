@@ -123,6 +123,9 @@ public class ViewingController {
             case "completed":
                 projects = viewingService.getCompletedProjects();
                 break;
+            case "canceled":
+                projects = viewingService.getCanceledProjects();
+                break;
             default:
                 projects = viewingService.getAllProjects();
                 break;

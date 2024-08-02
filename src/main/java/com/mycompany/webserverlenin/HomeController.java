@@ -50,7 +50,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
 public class HomeController {
 
     private final UserService userService;
@@ -59,12 +58,11 @@ public class HomeController {
     public HomeController(UserService userService) {
         this.userService = userService;
     }
-
-    @GetMapping
-    public String root() {
+    
+    @GetMapping("/")
+    public String redirectToHome() {
         return "redirect:/home";
     }
-
     @GetMapping("/home")
     public String home(Model model) {
         // Fetch the authenticated user's username

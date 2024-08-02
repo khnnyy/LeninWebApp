@@ -67,4 +67,11 @@ public class UserService {
         }
         return null; // or a default role
     }
+    
+    public String getUserName(String username) {
+        MongoCollection<Document> collection = mangoDBConnection.getConfiguration();
+        Document user = collection.find(new Document("user_name", username)).first();
+        return user.getString("name");
+
+    }
 }
