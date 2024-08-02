@@ -46,6 +46,33 @@ public class ViewingService {
     }
     return projectData;
 }
+    
+    public List<Document> getCanceledProjects() {
+    List<Document> projectData = new ArrayList<>();
+    try {
+        MongoCollection<Document> collection = mangoDBConnection.getCollection();
+        mangoDBConnection.updateRunningDays();
+        mangoDBConnection.updateWarranty();
+
+        // Filter to exclude documents with status "completed"
+        Document filter = new Document("status", "canceled");
+
+        projectData = collection.find(filter)
+                .projection(new Document("job_code", 1)
+                        .append("client_name", 1)
+                        .append("status", 1)
+                        .append("date_issued", 1)
+                        .append("date_confirmed", 1)
+                        .append("running_days", 1)
+                        .append("warranty", 1))
+                .sort(new Document("date_issued", -1))
+                .into(new ArrayList<>());
+    } catch (MongoException e) {
+        e.printStackTrace();
+    }
+    return projectData;
+}
+    
 
 
     public List<Document> getCompletedProjects() {

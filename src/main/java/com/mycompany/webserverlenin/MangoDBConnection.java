@@ -12,6 +12,7 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -65,6 +66,32 @@ public class MangoDBConnection {
     }
     
     
+    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    
+     public List<String> getEmail() {
+        List<String> emails = new ArrayList<>();
+        try {
+            // Define the projection to include only the 'email' field
+            Document projection = new Document("email", 1);
+            
+            // Execute the query with projection
+            MongoCursor<Document> cursor = configuration.find().projection(projection).iterator();
+
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                // Extract the email from the document
+                String email = document.getString("email");
+                if (email != null) {
+                    emails.add(email);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return emails;
+    }
+    
     
     public List<Document> getProjectData() {
         List<Document> projectData = new ArrayList<>();
@@ -84,6 +111,33 @@ public class MangoDBConnection {
         return projectData;
     }
     
+    public boolean jobCodeExists(String jobCode) {
+    try {
+        // Query to find the document with the specified job code
+        Document query = new Document("job_code", jobCode);
+        Document result = collection.find(query).first();
+        
+        // Check if the document is found
+        if (result != null) {
+            // Retrieve the status from the document
+            String status = result.getString("status");
+            // Return true if the status is not "pending"
+            return !"pending".equals(status);
+        }
+        
+        // Return false if no document is found
+        return false;
+    } catch (Exception e) {
+        // Handle any exceptions that occur during the query
+        System.err.println("Error checking job code status: " + e.getMessage());
+        // Optionally log the stack trace for debugging
+        e.printStackTrace();
+        // Return false in case of an error
+        return false;
+    }
+}
+
+
 
     public void updateStatusByJobCode(String jobCode, String newStatus) {
         try {
@@ -94,6 +148,18 @@ public class MangoDBConnection {
             e.printStackTrace();
         }
     }
+    
+    public void updateUserConfirm(String jobCode, String newStatus) {
+        try {
+            Document query = new Document("job_code", jobCode);
+            Document update = new Document("$set", new Document("user_confirmed", newStatus));
+            collection.updateOne(query, update);
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     
     public void confirmStatusByJobCode(String jobCode, String newConfirmed){
         try{
@@ -172,6 +238,15 @@ public class MangoDBConnection {
 
     public void insertData(JobOrderForm jobOrderForm) {
         try {
+            LocalDate parsedateIssued = LocalDate.parse(jobOrderForm.getDateIssued(), inputFormatter);
+            String dateIssued = parsedateIssued.format(outputFormatter);
+            
+            LocalDate parsedateDeployed = LocalDate.parse(jobOrderForm.getDateDeployed(), inputFormatter);
+            String dateDeployed = parsedateDeployed.format(outputFormatter);
+            
+            LocalDate paraseDateDue = LocalDate.parse(jobOrderForm.getDateDue(), inputFormatter);
+            String dateDue = paraseDateDue.format(outputFormatter);
+            
             Document document = new Document("_id", new ObjectId())
                     .append("job_type", jobOrderForm.getJobOrderType())
                     .append("job_code", jobOrderForm.getJobCode())
@@ -181,9 +256,10 @@ public class MangoDBConnection {
                     .append("client_request", jobOrderForm.getRequestRecommendation())
                     .append("team_leader", jobOrderForm.getLeader())
                     .append("solution_manpower", jobOrderForm.getManPower())
-                    .append("date_issued", jobOrderForm.getDateIssued())
+                    .append("date_issued", dateIssued)
                     .append("time_issued", jobOrderForm.getTimeIssued())
-                    .append("date_due", jobOrderForm.getDateDue())
+                    .append("partial_deployed", dateDeployed)
+                    .append("date_due", dateDue)
                     .append("solution_instructions", jobOrderForm.getInstructions())
                     .append("date_confirmed", "-")
                     .append("running_days", "-")
@@ -194,6 +270,8 @@ public class MangoDBConnection {
                     .append("warranty", "-")
                     .append("status", "pending"); // Assuming status is set to "Pending" initially
 
+             
+            
         System.out.println("Date Issued: " + jobOrderForm.getDateIssued());
         System.out.println("Job Code: " + jobOrderForm.getJobCode());
         System.out.println("Job Order Type: " + jobOrderForm.getJobOrderType());

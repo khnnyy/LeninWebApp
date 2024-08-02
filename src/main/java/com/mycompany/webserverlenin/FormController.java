@@ -39,7 +39,7 @@ public class FormController {
 
         String emailBody = createEmailBody(jobOrderForm);
 
-        List<String> recipients = Arrays.asList("xabubakarzx@gmail.com", "remnus013@gmail.com");
+        List<String> recipients = mangoDBConnection.getEmail();
 
         try {
             EmailConfig.sendEmail(recipients, "notmycandy56@gmail.com", "smtp.gmail.com", "Job Order Form Submission", emailBody, null);
