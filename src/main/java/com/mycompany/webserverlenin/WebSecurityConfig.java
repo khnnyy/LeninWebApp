@@ -15,20 +15,22 @@
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
-//                .authorizeHttpRequests((requests) -> requests
-//                .requestMatchers("/login", "/error", "/update-password").permitAll() // Allow access to login, error, and update-password pages
+//            .authorizeHttpRequests((requests) -> requests
+//                .requestMatchers("/login", "/error", "/update-password", "/create-user").permitAll() // Allow access to login, error, update-password, and create-user endpoints
 //                .anyRequest().authenticated() // Require authentication for all other requests
-//                )
-//                .formLogin((form) -> form
+//            )
+//            .formLogin((form) -> form
 //                .loginPage("/login") // Custom login page
 //                .defaultSuccessUrl("/home", true) // Redirect to /home after successful login
 //                .failureUrl("/login?error=Invalid%20username%20or%20password") // Redirect to login with error query param on failure
 //                .permitAll() // Allow everyone to access the login page
-//                )
-//                .logout((logout) -> logout
+//            )
+//            .logout((logout) -> logout
 //                .permitAll() // Allow everyone to access the logout page
-//                )
-//                .csrf(csrf -> csrf.ignoringRequestMatchers("/update-password")); // Disable CSRF protection for update-password endpoint
+//            )
+//            .csrf(csrf -> csrf
+//                .ignoringRequestMatchers("/update-password", "/create-user") // Disable CSRF protection for update-password and create-user endpoints
+//            );
 //
 //        return http.build();
 //    }
@@ -38,6 +40,8 @@
 //        return new BCryptPasswordEncoder();
 //    }
 //}
+//
+//
 
 package com.mycompany.webserverlenin;
 
@@ -56,22 +60,31 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/login", "/error", "/update-password", "/create-user").permitAll() // Allow access to login, error, update-password, and create-user endpoints
-                .anyRequest().authenticated() // Require authentication for all other requests
-            )
-            .formLogin((form) -> form
-                .loginPage("/login") // Custom login page
-                .defaultSuccessUrl("/home", true) // Redirect to /home after successful login
-                .failureUrl("/login?error=Invalid%20username%20or%20password") // Redirect to login with error query param on failure
-                .permitAll() // Allow everyone to access the login page
-            )
-            .logout((logout) -> logout
-                .permitAll() // Allow everyone to access the logout page
-            )
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/update-password", "/create-user") // Disable CSRF protection for update-password and create-user endpoints
-            );
+                .authorizeHttpRequests((requests) -> requests
+                .requestMatchers("/login", "/error", "/update-password", "/create-user").permitAll()
+                .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=Invalid%20username%20or%20password")
+                .permitAll()
+                )
+                .logout((logout) -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+                )
+                .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/update-password", "/create-user")
+                )
+                .sessionManagement(session -> session
+                .sessionFixation().migrateSession()
+                .invalidSessionUrl("/login?session=invalid")
+                )
+                .rememberMe()
+                .key("uniqueAndSecret")
+                .tokenValiditySeconds(86400); // 1 day
 
         return http.build();
     }
@@ -81,3 +94,4 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+

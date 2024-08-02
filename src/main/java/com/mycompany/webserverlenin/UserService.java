@@ -20,10 +20,17 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveUser(String username, String rawPassword, String role) {
-        String encryptedPassword = passwordEncoder.encode(rawPassword);
+    public void saveUser(String username, String name, String email, String rawPassword, String role) throws Exception {
         MongoCollection<Document> collection = mangoDBConnection.getConfiguration();
+        Document existingUser = collection.find(new Document("user_name", username)).first();
+        if (existingUser != null) {
+            throw new Exception("Username already exists.");
+        }
+
+        String encryptedPassword = passwordEncoder.encode(rawPassword);
         Document user = new Document("user_name", username)
+                .append("name", name)
+                .append("email", email)
                 .append("password", encryptedPassword)
                 .append("role", role);
         collection.insertOne(user);
