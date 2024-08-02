@@ -110,18 +110,34 @@
                 <span class="value" th:text="${jobOrderForm.leader}">Team Leader</span>
             </div>
             <div class="detail">
-                <span class="label">Transportation:</span>
-                <span class="value" th:text="${jobOrderForm.serviceRequest}">Transportation</span>
-            </div>
-            <div class="detail">
                 <span class="label">Date Issued:</span>
                 <span class="value" th:text="${jobOrderForm.dateIssued}">Date Issued</span>
+            </div>
+            <div class="detail">
+                <span class="label">Date Deployed</span>
+                <span class="value" th:text="${jobOrderForm.dateDeployed}">Date Deployed</span>
             </div>
             <div class="detail">
                 <span class="label">Expected Due:</span>
                 <span class="value" th:text="${jobOrderForm.dateDue}">Expected Due</span>
             </div>
+            <div class="detail">
+                <span class="label">Service Request</span>
+                <span class="value" th:text="${jobOrderForm.serviceRequest}">Service Request</span>
+            </div>
+            <div class="detail">
+                <span class="label">Man Power</span>
+                <span class="value" th:text="${jobOrderForm.manPower}">Man Power</span>
+            </div>
+             <div class="detail">
+                <span class="label">Instruction</span>
+                <span class="value" th:text="${jobOrderForm.instructions}">Instruction</span>
+            </div>
+            
+            
             <p style="margin-top: 20px;">
+                <a>This is a Generated Email Do not reply.</a>
+                <div>Only to be confirmed by JO Receiver</div>
                 Please click <a th:href="@{'http://localhost:8080/joborder/updateStatus?jobCode=' + ${jobOrderForm.jobCode} + '&status=confirmed'}">here</a> to confirm your job order.
             </p>
         </div>

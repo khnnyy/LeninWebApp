@@ -149,21 +149,21 @@
             <div class="row mb-3">
                 <div class="col-md-6 form-group date-container">
                     <label for="dateIssued">Date Issued</label>
-                    <input type="date" class="form-control" id="dateIssued" th:field="*{dateIssued}" name="dateIssued" required>
+                    <input type="date" class="form-control" id="dateIssued" th:field="*{dateIssued}" name="dateIssued" required readonly>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="jobCode">Job Code</label>
                     <div class="radio-group" required>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="jobCodeCM" name="jobOrderType" value="CM" onchange="updateJobCode()" >
+                            <input class="form-check-input" type="radio" id="jobCodeCM" name="jobOrderType" value="CM" onchange="updateJobCode()" required>
                             <label class="form-check-label" for="jobCodeCM">CM</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="jobCodeOCCULAR" name="jobOrderType" value="OCCULAR" onchange="updateJobCode()">
+                            <input class="form-check-input" type="radio" id="jobCodeOCCULAR" name="jobOrderType" value="OCCULAR" onchange="updateJobCode()" required>
                             <label class="form-check-label" for="jobCodeOCCULAR">OCULAR</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="jobCodePROJECT" name="jobOrderType" value="PROJECT" onchange="updateJobCode()">
+                            <input class="form-check-input" type="radio" id="jobCodePROJECT" name="jobOrderType" value="PROJECT" onchange="updateJobCode()" required>
                             <label class="form-check-label" for="jobCodePROJECT">PROJECT</label>
                         </div>
                         <input type="text" class="form-control ms-3" id="jobCodeText" th:field="*{jobCode}" name="jobCodeText" placeholder="Generated Job Code" readonly>

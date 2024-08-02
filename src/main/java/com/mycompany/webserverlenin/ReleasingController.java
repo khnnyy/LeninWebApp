@@ -3,6 +3,7 @@ package com.mycompany.webserverlenin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  *
  * @author khanny
  */
+@RestController
 public class ReleasingController {
     private final ReleasingService releasingService;
 
@@ -21,10 +23,10 @@ public class ReleasingController {
         this.releasingService = releasingService;
     }
 
-    @GetMapping("/deploy/{jobCode}")
-    public String deployJob(@PathVariable String jobCode) {
+    @GetMapping("/release/{jobCode}")
+    public String releaseJob(@PathVariable String jobCode) {
         boolean success = releasingService.releaseJobCode(jobCode);
-        return success ? "Release successful" : "Deployment failed";
+        return success ? "Release successful" : "Release failed";
     }
     
 }
