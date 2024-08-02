@@ -269,6 +269,7 @@ public class MangoDBConnection {
                     .append("date_released","-")
                     .append("time_released", "-")
                     .append("warranty", "-")
+                    
                     .append("status", "pending"); // Assuming status is set to "Pending" initially
 
              
