@@ -15,13 +15,17 @@ Mobile Number: 09555883171
 LeninWebApp: gpfq stbp onrw vngx
 -----------------------------------
 
+
+
 TO GET STARTED
 <-----DATABASE----->
 Access the database of the web app through mongo db https://www.mongodb.com/
 Login using the designated Google Account given above
 
-the database connection is hardcoded into the the code as well as the email
+the database connection is hardcoded into the code as well as the email
 that will be used for sending the confirmation code
+
+the credentials for the database connection user:admin password:lenin
 
 <---keep note there is no manipulation of data in the web app 
 all manipulation of existing data will be done through the database--->
