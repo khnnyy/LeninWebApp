@@ -18,6 +18,22 @@ LeninWebApp: gpfq stbp onrw vngx
 
 
 TO GET STARTED
+<-----HOST----->
+There will be two options for the hosting, access through local host run the 
+jar file from this project file and run locally. Remember to login the Google Account in 
+the local browser to avoid errors in the Email Sending function
+
+Or access the web app through free hosting service through render, which I have 
+already setted up and will be accessible through this link https://leninwebapp-48vw.onrender.com
+Render Login using Google Account -----
+
+<NOTE> When accessing the free hosting for the web app, it will take time to load since 
+its a free hosting at most 5-10 mins give or take, but after loading the first time it will
+work properly, after a certain amount of time of inactivity the web app will take time again to load
+The free hosting service is accessible through any network and is already ready for usage, 
+only problem is the downtime but 5 mins of loading is good enough considering its free
+
+<>
 <-----DATABASE----->
 Access the database of the web app through mongo db https://www.mongodb.com/
 Login using the designated Google Account given above
@@ -29,7 +45,6 @@ the credentials for the database connection user:admin password:lenin
 
 <---keep note there is no manipulation of data in the web app 
 all manipulation of existing data will be done through the database--->
-
 
 @MODULES
 <-----CREATE USER----->
